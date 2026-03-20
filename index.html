@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eid Mubarak – ZAKAULLAH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Amiri:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --gold-dim: #7a5f20;
+      --black: #080808;
+      --black-soft: #111111;
+    }
+
+    html, body {
+      background: var(--black);
+      color: var(--gold-light);
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── CANVAS PARTICLES ── */
+    #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px 40px;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* radial glow backdrop */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 40%, rgba(201,168,76,.13) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 50% 10%, rgba(201,168,76,.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ── CRESCENT ── */
+    .crescent-wrap {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: floatY 6s ease-in-out infinite;
+    }
+    .crescent {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: transparent;
+      box-shadow:
+        18px -10px 0 2px var(--gold),
+        18px -10px 30px 8px rgba(201,168,76,.55);
+      filter: drop-shadow(0 0 18px rgba(201,168,76,.7));
+    }
+
+    /* ── LANTERNS ── */
+    .lanterns {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 220px;
+      pointer-events: none;
+    }
+    .lantern {
+      position: absolute;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: swingLantern 4s ease-in-out infinite;
+      transform-origin: top center;
+    }
+    .lantern:nth-child(1) { left: 8%;  animation-delay: 0s;   }
+    .lantern:nth-child(2) { left: 20%; animation-delay: .6s;  }
+    .lantern:nth-child(3) { right: 8%; animation-delay: .3s;  }
+    .lantern:nth-child(4) { right: 20%;animation-delay: .9s;  }
+
+    .lantern-string {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold-dim), var(--gold));
+    }
+    .lantern-body {
+      width: 22px;
+      height: 36px;
+      background: radial-gradient(ellipse at 50% 40%, #ffe066 0%, var(--gold) 50%, #5a3a00 100%);
+      border-radius: 4px 4px 8px 8px;
+      box-shadow: 0 0 18px 6px rgba(201,168,76,.6), 0 0 40px 10px rgba(201,168,76,.25);
+      position: relative;
+    }
+    .lantern-body::before, .lantern-body::after {
+      content: '';
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      width: 26px; height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    .lantern-body::before { top: -3px; }
+    .lantern-body::after  { bottom: -3px; }
+    .lantern-tassel {
+      width: 1px; height: 14px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      background: linear-gradient(145deg, #0e0e0e 0%, #1a1508 50%, #0e0e0e 100%);
+      border: 1px solid rgba(201,168,76,.35);
+      border-radius: 20px;
+      padding: 40px 36px 36px;
+      max-width: 780px;
+      width: 100%;
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,.1),
+        0 0 60px rgba(201,168,76,.12),
+        0 30px 80px rgba(0,0,0,.8);
+      animation: fadeUp .9s ease both;
+      margin-top: 60px;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, rgba(201,168,76,.4), transparent 40%, rgba(201,168,76,.2) 100%);
+      z-index: -1;
+    }
+
+    /* corner ornaments */
+    .card::after {
+      content: '✦';
+      position: absolute;
+      top: 12px; right: 16px;
+      color: var(--gold-dim);
+      font-size: 18px;
+      opacity: .6;
+    }
+
+    .card-top-ornament {
+      text-align: center;
+      font-size: 22px;
+      color: var(--gold);
+      letter-spacing: 12px;
+      margin-bottom: 18px;
+      opacity: .7;
+    }
+
+    /* ── IMAGES ROW ── */
+    .images-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .img-wrap {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,.4);
+      box-shadow: 0 0 20px rgba(201,168,76,.2);
+      transition: transform .4s ease, box-shadow .4s ease;
+      background: #1a1508;
+    }
+    .img-wrap:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 0 40px rgba(201,168,76,.45);
+    }
+    .img-wrap.main {
+      width: 200px; height: 260px;
+      border-color: rgba(201,168,76,.7);
+      box-shadow: 0 0 35px rgba(201,168,76,.35), 0 0 80px rgba(201,168,76,.1);
+    }
+    .img-wrap.side {
+      width: 140px; height: 190px;
+    }
+    .img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(.92) contrast(1.05) saturate(.9);
+    }
+    /* placeholder when no image */
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--gold-dim);
+      font-size: 12px;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px;
+      text-align: center;
+      padding: 10px;
+    }
+    .img-placeholder svg { opacity: .5; }
+
+    .img-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.85), transparent);
+      padding: 18px 8px 6px;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 auto 22px;
+      max-width: 420px;
+    }
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    }
+    .divider-icon { color: var(--gold); font-size: 16px; }
+
+    /* ── TYPOGRAPHY ── */
+    .eid-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.4rem, 7vw, 4.2rem);
+      font-weight: 900;
+      text-align: center;
+      background: linear-gradient(135deg, #c9a84c 0%, #f0d080 40%, #c9a84c 70%, #7a5f20 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 6px;
+      text-shadow: none;
+      filter: drop-shadow(0 0 18px rgba(201,168,76,.5));
+      animation: glowPulse 3s ease-in-out infinite;
+      margin-bottom: 10px;
+    }
+
+    .subheading {
+      text-align: center;
+      font-size: clamp(.95rem, 2.5vw, 1.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(240,208,128,.75);
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+
+    .ayat-wrap {
+      text-align: center;
+      margin: 0 auto 8px;
+      padding: 18px 20px;
+      border-top: 1px solid rgba(201,168,76,.2);
+      border-bottom: 1px solid rgba(201,168,76,.2);
+    }
+    .ayat-arabic {
+      font-family: 'Amiri', serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--gold-light);
+      direction: rtl;
+      line-height: 1.8;
+      filter: drop-shadow(0 0 8px rgba(201,168,76,.4));
+      margin-bottom: 6px;
+    }
+    .ayat-translation {
+      font-size: .82rem;
+      letter-spacing: 2px;
+      color: rgba(201,168,76,.6);
+      font-style: italic;
+    }
+
+    /* ── BRAND ── */
+    .brand-section {
+      text-align: center;
+      margin-top: 32px;
+      animation: fadeUp 1.2s ease both;
+    }
+    .brand-name {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: 10px;
+      background: linear-gradient(135deg, #7a5f20 0%, #c9a84c 30%, #f0d080 50%, #c9a84c 70%, #7a5f20 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(201,168,76,.6));
+    }
+    .brand-tagline {
+      font-size: .8rem;
+      letter-spacing: 4px;
+      color: rgba(201,168,76,.5);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ── PRE-HEADING ── */
+    .pre-heading {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(.72rem, 1.8vw, .88rem);
+      letter-spacing: 3.5px;
+      color: rgba(220, 210, 185, .42);
+      text-shadow: 0 0 14px rgba(201,168,76,.12);
+      margin-bottom: 16px;
+      animation: fadeUp .7s ease both;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── FOOTER LINE ── */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: .7rem;
+      letter-spacing: 3px;
+      color: rgba(201,168,76,.25);
+      text-transform: uppercase;
+      padding-bottom: 20px;
+      animation: fadeUp 1.5s ease both;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(-10px); }
+    }
+    @keyframes swingLantern {
+      0%, 100% { transform: rotate(-6deg); }
+      50%       { transform: rotate(6deg); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0 0 14px rgba(201,168,76,.4)); }
+      50%       { filter: drop-shadow(0 0 28px rgba(201,168,76,.75)); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .card { padding: 28px 18px 24px; }
+      .img-wrap.main  { width: 140px; height: 185px; }
+      .img-wrap.side  { width: 95px;  height: 130px; }
+      .images-row { gap: 10px; }
+      .lantern:nth-child(2), .lantern:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<section class="hero">
+
+  <!-- Crescent Moon -->
+  <div class="crescent-wrap">
+    <div class="crescent"></div>
+  </div>
+
+  <!-- Lanterns -->
+  <div class="lanterns">
+    <div class="lantern"><div class="lantern-string"></div><div class="lantern-body"></div><div class="lantern-tassel"></div></div>
+    <div class="lantern"><div class="lantern-string"></div><div class="lantern-body"></div><div class="lantern-tassel"></div></div>
+    <div class="lantern"><div class="lantern-string"></div><div class="lantern-body"></div><div class="lantern-tassel"></div></div>
+    <div class="lantern"><div class="lantern-string"></div><div class="lantern-body"></div><div class="lantern-tassel"></div></div>
+  </div>
+
+  <!-- Pre-heading -->
+  <p class="pre-heading">A Sacred Celebration of Faith, Gratitude, and New Beginnings</p>
+
+  <!-- Card -->
+  <div class="card">
+    <div class="card-top-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <!-- Images Row -->
+    <div class="images-row">
+      <!-- Left side image -->
+      <div class="img-wrap side">
+        <img src="right side image .png" alt="Photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="img-placeholder" style="display:none">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Place<br/>image2.jpg
+        </div>
+        <div class="img-label">✦</div>
+      </div>
+
+      <!-- Main center image -->
+      <div class="img-wrap main">
+        <img src="main image .jpeg" alt="Main Photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="img-placeholder" style="display:none">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Main Photo<br/>image1.jpg
+        </div>
+        <div class="img-label">ZAKAULLAH</div>
+      </div>
+
+      <!-- Right side image -->
+      <div class="img-wrap side">
+        <img src="right side image .png" alt="Photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="img-placeholder" style="display:none">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Place<br/>image3.jpg
+        </div>
+        <div class="img-label">✦</div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-icon">☽</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Heading -->
+    <h1 class="eid-heading">Eid Mubarak</h1>
+    <p class="subheading">Wishing you peace, success, and endless blessings</p>
+
+    <!-- Ayat -->
+    <div class="ayat-wrap">
+      <div class="ayat-arabic">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+      <div class="ayat-translation">"Indeed, with hardship comes ease" — Quran 94:6</div>
+    </div>
+  </div>
+
+  <!-- Brand -->
+  <div class="brand-section">
+    <div class="brand-name">ZAKAULLAH</div>
+    <div class="brand-tagline">Spreading positivity, strength, and vision</div>
+  </div>
+
+  <div class="footer">© Eid Mubarak &nbsp;✦&nbsp; May this blessed day bring you joy</div>
+
+</section>
+
+<script>
+  // Gold particle system
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  for (let i = 0; i < 90; i++) {
+    particles.push({
+      x: rand(0, 1), y: rand(0, 1),
+      r: rand(.5, 2.2),
+      speed: rand(.00008, .00022),
+      opacity: rand(.15, .7),
+      drift: rand(-.0001, .0001),
+      pulse: rand(0, Math.PI * 2),
+      pulseSpeed: rand(.01, .03)
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.x += p.drift;
+      p.pulse += p.pulseSpeed;
+      if (p.y < 0) { p.y = 1; p.x = rand(0, 1); }
+      if (p.x < 0 || p.x > 1) p.drift *= -1;
+
+      const alpha = p.opacity * (.6 + .4 * Math.sin(p.pulse));
+      ctx.beginPath();
+      ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>
+</body>
+</html>
